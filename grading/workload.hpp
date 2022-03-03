@@ -276,8 +276,14 @@ public:
         transactional(tm, Transaction::Mode::read_write, [&](Transaction& tx) {
             AccountSegment segment{tx, tm.get_start()};
             segment.count = nbaccounts;
-            for (size_t i = 0; i < nbaccounts; ++i)
+            for (size_t i = 0; i < nbaccounts; ++i){
+                //::std::cout <<(unsigned int)pthread_self()<< i << "-init balance:" << init_balance << ::std::endl;
                 segment.accounts[i] = init_balance;
+            }
+            /*
+            for (size_t i = 0; i < nbaccounts; ++i){
+                ::std::cout <<(unsigned int)pthread_self()<< i << "-now balance:" << segment.accounts[i] << ::std::endl;                
+            } */
         });
         auto correct = transactional(tm, Transaction::Mode::read_only, [&](Transaction& tx) {
             AccountSegment segment{tx, tm.get_start()};
@@ -294,6 +300,7 @@ public:
         ::std::gamma_distribution<float> alloc_trigger(expnbaccounts, 1);
         size_t count = nbaccounts;
         for (size_t cntr = 0; cntr < nbtxperwrk; ++cntr) {
+            //::std::cout << "run-for-loop:"<< cntr<< ::std::endl;
             if (long_dist(engine)) { // Do a long transaction
                 if (unlikely(!long_tx(count)))
                     return "Violated isolation or atomicity";

@@ -117,8 +117,10 @@ public:
             if (unlikely(!realpath(path, resolved)))
                 throw Exception::PathResolve{};
             module = ::dlopen(resolved, RTLD_NOW | RTLD_LOCAL);
-            if (unlikely(!module))
+            if (unlikely(!module)){
+                ::std::cout <<"mark-----" << ::dlerror() << ::std::endl;
                 throw Exception::ModuleLoading{};
+            }
         }
         { // Bind module's 'tm_*' symbols
             solve("tm_create", tm_create);

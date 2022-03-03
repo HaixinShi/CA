@@ -33,7 +33,7 @@
 #include "common.hpp"
 #include "transactional.hpp"
 #include "workload.hpp"
-
+#include <mcheck.h>
 // -------------------------------------------------------------------------- //
 
 /** Tailored thread synchronization class.
@@ -247,6 +247,7 @@ static auto measure(Workload& workload, unsigned int const nbthreads, unsigned i
 **/
 int main(int argc, char** argv) {
     try {
+        mtrace();
         // Parse command line option(s)
         if (argc < 3) {
             ::std::cout << "Usage: " << (argc > 0 ? argv[0] : "grading") << " <seed> <reference library path> <tested library path>..." << ::std::endl;

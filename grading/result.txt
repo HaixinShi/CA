@@ -1,0 +1,17 @@
+⎧ #worker threads:     2
+⎪ #TX per worker:      100000
+⎪ #repetitions:        7
+⎪ Initial #accounts:   64
+⎪ Expected #accounts:  512
+⎪ Initial balance:     100
+⎪ Long TX probability: 0.5
+⎪ Allocation TX prob.: 0.01
+⎪ Slow trigger factor: 8
+⎪ Clock resolution:    1 ns
+⎩ Seed value:          453
+⎧ Evaluating '../reference.so' (reference)...
+⎪ Total user execution time: 91955.6 ms
+⎩ Average TX execution time: 459778 ns
+⎧ Evaluating '../337700.so'...
+⎪ Total user execution time: 233219 ms -> 0.394288 speedup
+⎩ Average TX execution time: 1.1661e+06 ns

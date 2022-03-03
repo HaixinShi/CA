@@ -37,17 +37,17 @@ clean:
 clean-libs:
 	@$(foreach DIR,$(LIB_DIRS),make -C $(DIR) clean; )
 run: $(BIN)
-	$(BIN) 453 ../reference.so $(LIB_SOS)
+	/usr/bin/valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --log-file=log.tx $(BIN) 453 ../reference.so $(LIB_SOS) | tee result.txt
 
 define BUILD_C
 %.$(1).o: %.$(1) $$(HDRS_C) Makefile
-	$$(CC) $$(CCFLAGS) -c -o $$@ $$<
+	$$(CC) $$(CCFLAGS) -c -o $$@ $$< -g
 endef
 $(foreach EXT,$(EXT_C),$(eval $(call BUILD_C,$(EXT))))
 
 define BUILD_CXX
 %.$(1).o: %.$(1) $$(HDRS_CXX) Makefile
-	$$(CXX) $$(CXXFLAGS) -c -o $$@ $$<
+	$$(CXX) $$(CXXFLAGS) -c -o $$@ $$< -g
 endef
 $(foreach EXT,$(EXT_CXX),$(eval $(call BUILD_CXX,$(EXT))))
 
